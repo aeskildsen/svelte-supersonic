@@ -61,7 +61,7 @@ export function getServer(): Server | null {
 function setStatus(msg: string, kind: StatusKind = ''): void {
 	_state.status = msg;
 	_state.statusKind = kind;
-	console.log(`[supersonic-lib] ${msg}`);
+	//console.log(`[supersonic-lib] ${msg}`);
 }
 
 function tickHealth(): void {
@@ -103,11 +103,11 @@ export async function boot(overrides: Partial<SuperSonicConfig> = {}): Promise<v
 		const { SuperSonic } = await import(/* @vite-ignore */ `${config.baseURL}supersonic.js`);
 
 		_instance = new SuperSonic(config) as SuperSonicInstance;
-		console.log('[supersonic-lib] instance created', _instance);
+		//console.log('[supersonic-lib] instance created', _instance);
 
 		setStatus('calling init()…');
 		await _instance.init();
-		console.log('[supersonic-lib] init() resolved – engine running');
+		//console.log('[supersonic-lib] init() resolved – engine running');
 
 		setupGroups(_instance.send.bind(_instance));
 		_state.server = createServer(_instance);

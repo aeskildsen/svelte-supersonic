@@ -8,9 +8,11 @@ export type Server = ReturnType<typeof createServer>;
 export function createServer(instance: SuperSonicInstance) {
 	return {
 		// Create a new synth in a named group
-		synth(name: string, group: GroupName = 'source', params: SynthParams = {}): void {
+		synth(name: string, group: GroupName = 'source', params: SynthParams = {}): number {
+			const id = instance.nextNodeId();
 			const flat = Object.entries(params).flat();
-			instance.send('/s_new', name, -1, 0, GROUPS[group], ...flat);
+			instance.send('/s_new', name, id, 0, GROUPS[group], ...flat);
+			return id;
 		},
 
 		// Set one or more controls on a node
@@ -60,6 +62,6 @@ export function createServer(instance: SuperSonicInstance) {
 		// Raw passthrough — always available when wrappers aren't enough
 		send(...args: (string | number)[]): void {
 			instance.send(...args);
-		},
+		}
 	};
 }

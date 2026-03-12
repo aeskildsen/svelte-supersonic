@@ -1,5 +1,6 @@
 export interface SuperSonicInstance {
 	init(): Promise<void>;
+	nextNodeId(): number;
 	loadSynthDef(name: string): Promise<void>;
 	loadSample(
 		bufnum: number,

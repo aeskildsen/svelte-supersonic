@@ -11,8 +11,8 @@ import { boot, serverState, getServer, GROUPS } from 'svelte-supersonic';
 await boot();
 
 // Reactive state
-serverState.booted     // boolean
-serverState.health     // EngineHealth
+serverState.booted; // boolean
+serverState.health; // EngineHealth
 
 // OSC wrappers
 const sc = getServer();
@@ -26,8 +26,8 @@ By default, SuperSonic assets are loaded from jsDelivr CDN. To override (e.g. fo
 ```ts
 // Self-hosted: copy npm package dist files into static/
 await boot({
-  baseURL: '/supersonic/dist/',
-  coreBaseURL: '/supersonic/core/'
+	baseURL: '/supersonic/dist/',
+	coreBaseURL: '/supersonic/core/'
 });
 ```
 

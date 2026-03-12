@@ -4,8 +4,10 @@ import { createServer } from './osc.js';
 
 function makeMockInstance(): { instance: SuperSonicInstance; calls: (string | number)[][] } {
 	const calls: (string | number)[][] = [];
+	let nodeIdCounter = 1000;
 	const instance = {
 		init: vi.fn(),
+		nextNodeId: vi.fn(() => nodeIdCounter++),
 		loadSynthDef: vi.fn().mockResolvedValue(undefined),
 		loadSample: vi.fn().mockResolvedValue(undefined),
 		send: vi.fn((...args: (string | number)[]) => calls.push(args))
@@ -18,21 +20,28 @@ describe('synth', () => {
 		const { instance, calls } = makeMockInstance();
 		const sc = createServer(instance);
 		sc.synth('sonic-pi-prophet', 'source', { note: 52, release: 4 });
-		expect(calls).toEqual([['/s_new', 'sonic-pi-prophet', -1, 0, 100, 'note', 52, 'release', 4]]);
+		expect(calls).toEqual([['/s_new', 'sonic-pi-prophet', 1000, 0, 100, 'note', 52, 'release', 4]]);
 	});
 
 	it('sends /s_new targeting effects group (200)', () => {
 		const { instance, calls } = makeMockInstance();
 		const sc = createServer(instance);
 		sc.synth('my-fx', 'effects');
-		expect(calls).toEqual([['/s_new', 'my-fx', -1, 0, 200]]);
+		expect(calls).toEqual([['/s_new', 'my-fx', 1000, 0, 200]]);
 	});
 
 	it('sends /s_new targeting master group (300)', () => {
 		const { instance, calls } = makeMockInstance();
 		const sc = createServer(instance);
 		sc.synth('my-limiter', 'master');
-		expect(calls).toEqual([['/s_new', 'my-limiter', -1, 0, 300]]);
+		expect(calls).toEqual([['/s_new', 'my-limiter', 1000, 0, 300]]);
+	});
+
+	it('returns the allocated node id', () => {
+		const { instance } = makeMockInstance();
+		const sc = createServer(instance);
+		expect(sc.synth('beep')).toBe(1000);
+		expect(sc.synth('beep')).toBe(1001);
 	});
 
 	it('defaults to source group when group is omitted', () => {
@@ -46,7 +55,7 @@ describe('synth', () => {
 		const { instance, calls } = makeMockInstance();
 		const sc = createServer(instance);
 		sc.synth('beep', 'source', {});
-		expect(calls).toEqual([['/s_new', 'beep', -1, 0, 100]]);
+		expect(calls).toEqual([['/s_new', 'beep', 1000, 0, 100]]);
 	});
 });
 
