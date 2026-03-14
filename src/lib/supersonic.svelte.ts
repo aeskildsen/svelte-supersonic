@@ -47,7 +47,6 @@ export const serverState = {
 // Module-private; accessed via getInstance() to keep callers from bypassing wrappers.
 // The server object lives on _state so that $derived(getServer()) is reactive.
 let _instance: SuperSonicInstance | null = null;
-let _pollInterval: ReturnType<typeof setInterval> | null = null;
 
 export function getInstance(): SuperSonicInstance | null {
 	return _instance;
@@ -104,11 +103,11 @@ export async function boot(overrides: Partial<SuperSonicConfig> = {}): Promise<v
 		_instance = new SuperSonic(config) as SuperSonicInstance;
 
 		setStatus('calling init()…');
-		await _instance.init();;
+		await _instance.init();
 
 		setupGroups(_instance.send.bind(_instance));
 		_state.server = createServer(_instance);
-		_pollInterval = setInterval(tickHealth, healthCheckInterval);
+		setInterval(tickHealth, healthCheckInterval);
 
 		// Warn before page unload — reloading destroys the WASM engine and all synthesis state.
 		window.addEventListener('beforeunload', (e) => {
