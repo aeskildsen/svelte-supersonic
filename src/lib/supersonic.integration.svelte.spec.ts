@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { describe, it, expect, beforeAll, afterEach } from 'vitest';
 import { userEvent } from 'vitest/browser';
 import { boot, serverState, getServer, getInstance } from './supersonic.svelte.js';
@@ -9,7 +10,7 @@ function wait(ms: number) {
 
 // Poll until the node tree version changes (i.e. scsynth has processed the OSC message).
 async function waitForTreeChange(timeoutMs = 2000): Promise<void> {
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	 
 	const instance = getInstance() as any;
 	const before = instance?.getRawTree()?.version ?? 0;
 	const deadline = Date.now() + timeoutMs;
@@ -22,14 +23,13 @@ async function waitForTreeChange(timeoutMs = 2000): Promise<void> {
 
 // Walk the node tree and return all synth nodes inside a given group id.
 function synthsInGroup(groupId: number): { id: number; defName: string }[] {
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	 
 	const tree = (getInstance() as any)?.getTree();
 	if (!tree?.root) return [];
 	const group = findNode(tree.root, groupId);
 	return group?.children?.filter((n: any) => n.type === 'synth') ?? [];
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function findNode(node: any, id: number): any {
 	if (node.id === id) return node;
 	for (const child of node.children ?? []) {
