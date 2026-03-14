@@ -1,4 +1,4 @@
-import type { SuperSonicInstance } from './types.js';
+import type { SuperSonicInstance, AddAction } from './types.js';
 import { GROUPS, type GroupName } from './groups.js';
 
 export type SynthParams = Record<string, number | string>;
@@ -8,10 +8,10 @@ export type Server = ReturnType<typeof createServer>;
 export function createServer(instance: SuperSonicInstance) {
 	return {
 		// Create a new synth in a named group
-		synth(name: string, group: GroupName = 'source', params: SynthParams = {}): number {
+		synth(name: string, group: GroupName = 'source', params: SynthParams = {}, addAction: AddAction = 0): number {
 			const id = instance.nextNodeId();
 			const flat = Object.entries(params).flat();
-			instance.send('/s_new', name, id, 0, GROUPS[group], ...flat);
+			instance.send('/s_new', name, id, addAction, GROUPS[group], ...flat);
 			return id;
 		},
 

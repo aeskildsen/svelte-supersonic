@@ -18,6 +18,9 @@ export interface SuperSonicConfig {
 
 export type StatusKind = '' | 'ok' | 'error';
 
+// scsynth /s_new add actions (4th argument)
+export type AddAction = 0 | 1 | 2 | 3 | 4;
+
 export type EngineHealth = {
 	status: 'ok' | 'warn' | 'error';
 	audioContextState: string; // 'running' | 'suspended' | 'closed' | '' (before first poll)
