@@ -48,8 +48,19 @@ export const serverState = {
 // The server object lives on _state so that $derived(getServer()) is reactive.
 let _instance: SuperSonicInstance | null = null;
 
+// The SuperSonic constructor class — captured during boot so callers can access
+// static OSC utilities (e.g. SuperSonic.osc.encodeSingleBundle) without a re-import.
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+let _SuperSonicClass: any | null = null;
+
 export function getInstance(): SuperSonicInstance | null {
 	return _instance;
+}
+
+/** Returns the static `SuperSonic.osc` utility namespace, or null before boot. */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function getOsc(): any | null {
+	return _SuperSonicClass?.osc ?? null;
 }
 
 export function getServer(): Server | null {
@@ -100,6 +111,7 @@ export async function boot(overrides: Partial<SuperSonicConfig> = {}): Promise<v
 		// @ts-ignore — CDN module has no type declarations
 		const { SuperSonic } = await import(/* @vite-ignore */ `${config.baseURL}supersonic.js`);
 
+		_SuperSonicClass = SuperSonic;
 		_instance = new SuperSonic(config) as SuperSonicInstance;
 
 		setStatus('calling init()…');

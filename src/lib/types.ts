@@ -7,6 +7,9 @@ export interface SuperSonicInstance {
 		source: string | ArrayBuffer | ArrayBufferView | Blob
 	): Promise<unknown>;
 	send(...args: (string | number)[]): void;
+	sendOSC(oscData: Uint8Array | ArrayBuffer, options?: { sessionId?: string; runTag?: string }): void;
+	readonly audioContext: AudioContext | null;
+	readonly initTime: number;
 }
 
 export interface SuperSonicConfig {

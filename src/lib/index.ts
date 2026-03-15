@@ -1,5 +1,5 @@
 // State + boot lifecycle
-export { serverState, boot, getInstance, getServer } from './supersonic.svelte.js';
+export { serverState, boot, getInstance, getServer, getOsc } from './supersonic.svelte.js';
 
 // Group constants
 export { GROUPS } from './groups.js';
