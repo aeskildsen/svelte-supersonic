@@ -10,7 +10,13 @@ export { createServer } from './osc.js';
 export type { Server, SynthParams } from './osc.js';
 
 // Types
-export type { SuperSonicInstance, SuperSonicConfig, StatusKind, EngineHealth, AddAction } from './types.js';
+export type {
+	SuperSonicInstance,
+	SuperSonicConfig,
+	StatusKind,
+	EngineHealth,
+	AddAction
+} from './types.js';
 
 // Config
 export { defaultConfig, SUPERSONIC_VERSION } from './config.js';

@@ -10,7 +10,6 @@ function wait(ms: number) {
 
 // Poll until the node tree version changes (i.e. scsynth has processed the OSC message).
 async function waitForTreeChange(timeoutMs = 2000): Promise<void> {
-	 
 	const instance = getInstance() as any;
 	const before = instance?.getRawTree()?.version ?? 0;
 	const deadline = Date.now() + timeoutMs;
@@ -23,7 +22,6 @@ async function waitForTreeChange(timeoutMs = 2000): Promise<void> {
 
 // Walk the node tree and return all synth nodes inside a given group id.
 function synthsInGroup(groupId: number): { id: number; defName: string }[] {
-	 
 	const tree = (getInstance() as any)?.getTree();
 	if (!tree?.root) return [];
 	const group = findNode(tree.root, groupId);
