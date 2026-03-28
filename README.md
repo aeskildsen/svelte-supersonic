@@ -1,5 +1,7 @@
 # svelte-supersonic
 
+> **Alpha software.** This library is in active development — the API is unstable and breaking changes should be expected between releases.
+
 Svelte 5 component library and SuperSonic infrastructure for flux and klonk.
 
 ## Usage
